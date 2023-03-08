@@ -22,17 +22,19 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::368293260341:role/github_actions-falcosidekick-ecr
+          role-to-assume: arn:aws:iam::368293260341:role/github_actions-falcosidekick-ecr # CHANGE THIS
           aws-region: us-east-1
 
       - name: Login to Amazon ECR
-        id: login-ecr
+        id: login-ecr-public
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
 
       - name: Push image
         env:
-          REGISTRY: public.ecr.aws/w1s5s7h5
-          REPOSITORY: ecr-test
+          REGISTRY: public.ecr.aws/w1s5s7h5 # CHANGE THIS
+          REPOSITORY: ecr-test # CHANGE THIS
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
